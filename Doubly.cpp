@@ -221,6 +221,52 @@ public:
         newNode->next = temp;
         prev->next = newNode;
     }
+ bool deleteBefore(T key)
+ {
+     if (head == nullptr || head->next == nullptr)
+         return false; 
+     Node<T>* temp = head;
+     Node<T>* prevNode = nullptr;
+     if (head->data == key)
+         return false;
+     while (temp != nullptr && temp->data != key)
+     {
+         prevNode = temp;
+         temp = temp->next;
+     }
+     if (temp == nullptr || prevNode == nullptr || prevNode->prev == nullptr)
+         return false; 
+     Node<T>* toDelete = prevNode->prev;
+     if (toDelete->prev != nullptr)
+     {
+         toDelete->prev->next = prevNode;
+     }
+     prevNode->prev = toDelete->prev;
+     delete toDelete;
+     return true;
+ }
+
+ bool deleteAfter(T key)
+ {
+     Node<T>* temp = head;
+
+     if (head == nullptr || head->next == nullptr)
+         return false; 
+     while (temp != nullptr && temp->data != key)
+     {
+         temp = temp->next;
+     }
+     if (temp == nullptr || temp->next == nullptr)
+         return false; 
+     Node<T>* toDelete = temp->next;
+     temp->next = toDelete->next;
+     if (toDelete->next != nullptr)
+     {
+         toDelete->next->prev = temp;
+     }
+     delete toDelete;
+     return true;
+ }
     
 
 };
